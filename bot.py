@@ -3,7 +3,6 @@ import telebot
 import redis
 import os
 
-
 bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
 r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 START, ADD, NEARBY = map(str, range(3))
@@ -167,7 +166,7 @@ def handle_nearby(message):
     bot.send_message(chat_id=message.chat.id,
                      text='Добавьте геолокацию, чтоб получить ближайшие добавленные места')
     bot.send_message(chat_id=message.chat.id, text='Введите в каком радиусе искать места',
-    		     reply_markup=keyboard_add('Отменить поиск'))
+                     reply_markup=keyboard_add('Отменить поиск'))
     update_state(message.chat.id, NEARBY)
 
 
@@ -188,19 +187,20 @@ def handle_nearby_place(message):
         places = r.lrange(message.chat.id, 0, -1)
         if places:
             bot.send_message(chat_id=user_id, text='Ближайшие сохраненные места:')
-		for place in places:
-		    try:
-		        img, name, geo = place.split(';')
-		        lat_to, lon_to = map(float, geo.split(','))
-		        dis = distance(lat_from, lon_from, lat_to, lon_to)
-		        if dis <= float(r.get(key)):
-		            bot.send_message(chat_id=user_id, text=f'{name}')
-		            bot.send_location(user_id, lat_to, lon_to)
-		    except (ValueError, IndexError):
-		        continue
-	else:
-	    bot.send_message(chat_id=user_id, text=f'В радиусе {dis} метров сохраненные места не найдены')
-        update_state(user_id, START)
+            for place in places:
+                try:
+                    img, name, geo = place.split(';')
+                    lat_to, lon_to = map(float, geo.split(','))
+                    dis = distance(lat_from, lon_from, lat_to, lon_to)
+                    if dis <= float(r.get(key)):
+                        bot.send_message(chat_id=user_id, text=f'{name}')
+                        bot.send_location(user_id, lat_to, lon_to)
+                except (ValueError, IndexError):
+                    continue
+    else:
+        bot.send_message(chat_id=user_id, text=f'В радиусе {dis} метров сохраненные места не найдены')
+    update_state(user_id, START)
 
 
 bot.polling()
+
