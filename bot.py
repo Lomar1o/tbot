@@ -26,9 +26,9 @@ def get_status(user_id):
     return r.get(key)
 
 
-def keyboard_add():
+def keyboard_add(*args):
     keyboard = telebot.types.InlineKeyboardMarkup(row_width=2)
-    buttons = ['Добавить место', 'Посмотреть', 'Отменить добавление']
+    buttons = [*args]
     buttons = [telebot.types.InlineKeyboardButton(text=button, callback_data=button)
                for button in buttons]
     keyboard.add(*buttons)
@@ -62,7 +62,7 @@ def handle_geo(message=None):
     loc = f'{lat}, {lon}'
     r.set(key, loc)
     bot.send_message(chat_id=message.chat.id, text='Геолокация обновлена',
-                     reply_markup=keyboard_add())
+                     reply_markup=keyboard_add('Добавить место', 'Посмотреть', 'Отменить добавление'))
 
 
 @bot.message_handler(func=lambda message: get_status(message.chat.id) == ADD,
@@ -75,7 +75,7 @@ def handle_name(message):
                          text='Сначала закончите добавление текущего места')
     else:
         bot.send_message(chat_id=message.chat.id, text='Название обновлено',
-                         reply_markup=keyboard_add())
+                         reply_markup=keyboard_add('Добавить место', 'Посмотреть', 'Отменить добавление'))
 
 
 @bot.message_handler(func=lambda message: get_status(message.chat.id) == ADD,
@@ -84,7 +84,7 @@ def handle_img(message):
     key = create_key(message.chat.id, 'img')
     r.set(key, message.photo[0].file_id)
     bot.send_message(chat_id=message.chat.id, text='Фотография обновлена',
-                     reply_markup=keyboard_add())
+                     reply_markup=keyboard_add('Добавить место', 'Посмотреть', 'Отменить добавление'))
 
 
 @bot.callback_query_handler(func=lambda x: True)
