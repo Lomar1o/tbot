@@ -21,6 +21,8 @@ def update_state(user_id, state):
 
 def get_status(user_id):
     key = create_key(user_id, 'state')
+    if r.get(key) is None:
+        return START
     return r.get(key)
 
 
