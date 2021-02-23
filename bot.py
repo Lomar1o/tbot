@@ -195,7 +195,7 @@ def handle_nearby_place(message):
                 if dis <= float(r.get(key)):
                     bot.send_message(chat_id=user_id, text=f'{name}')
                     bot.send_location(user_id, lat_to, lon_to)
-            except IndexError:
+            except (ValueError, IndexError):
                 continue
         update_state(user_id, START)
 
