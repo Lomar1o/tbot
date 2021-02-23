@@ -1,9 +1,7 @@
 from collections import defaultdict
 from math import radians, cos, sin, asin, sqrt
-from boto.s3.connection import S3Connection
 import telebot
 import redis
-import os
 
 
 bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
