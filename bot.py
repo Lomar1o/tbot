@@ -20,9 +20,7 @@ def update_state(user_id, state):
 def get_status(user_id):
     key = create_key(user_id, 'state')
     print(r.get(key))
-    if r.get(key) is None:
-        return START
-    return r.get(key)
+    return r.get(key) or START
 
 
 def keyboard_add(*args):
@@ -91,12 +89,9 @@ def handle_img(message):
 def callback_handler(callback_query):
     text = callback_query.data
     user_id = callback_query.message.chat.id
-    img = r.get(create_key(user_id, 'img')) \
-        if r.get(create_key(user_id, 'img')) is not None else ''
-    name = r.get(create_key(user_id, 'name')) \
-        if r.get(create_key(user_id, 'name')) is not None else ''
-    geo = r.get(create_key(user_id, 'geo')) \
-        if r.get(create_key(user_id, 'geo')) is not None else ''
+    img = r.get(create_key(user_id, 'img')) or ''
+    name = r.get(create_key(user_id, 'name')) or ''
+    geo = r.get(create_key(user_id, 'geo')) or ''
     if text == 'Добавить место':
         r.lpush(user_id, f'{img}; {name}; {geo}')
         bot.send_message(chat_id=user_id, text='Место удачно добавлено')
@@ -197,8 +192,6 @@ def handle_nearby_place(message):
                         bot.send_location(user_id, lat_to, lon_to)
                 except (ValueError, IndexError):
                     continue
-        else:
-            bot.send_message(chat_id=user_id, text=f'В радиусе {r.get(key)} метров сохраненные места не найдены')
         update_state(user_id, START)
 
 
