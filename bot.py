@@ -6,7 +6,7 @@ import redis
 import os
 
 
-bot = telebot.TeleBot(os.environ['TOKEN'])
+bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
 r = redis.StrictRedis(decode_responses=True)
 START, ADD, NEARBY = map(str, range(3))
 STATUS = defaultdict(lambda: START)
