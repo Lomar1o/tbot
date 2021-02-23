@@ -186,16 +186,20 @@ def handle_nearby_place(message):
         lat_from = message.location.latitude
         lon_from = message.location.longitude
         places = r.lrange(message.chat.id, 0, -1)
-        for place in places:
-            try:
-                img, name, geo = place.split(';')
-                lat_to, lon_to = map(float, geo.split(','))
-                dis = distance(lat_from, lon_from, lat_to, lon_to)
-                if dis <= float(r.get(key)):
-                    bot.send_message(chat_id=user_id, text=f'{name}')
-                    bot.send_location(user_id, lat_to, lon_to)
-            except (ValueError, IndexError):
-                continue
+        if places:
+            bot.send_message(chat_id=user_id, text='Ближайшие сохраненные места:')
+		for place in places:
+		    try:
+		        img, name, geo = place.split(';')
+		        lat_to, lon_to = map(float, geo.split(','))
+		        dis = distance(lat_from, lon_from, lat_to, lon_to)
+		        if dis <= float(r.get(key)):
+		            bot.send_message(chat_id=user_id, text=f'{name}')
+		            bot.send_location(user_id, lat_to, lon_to)
+		    except (ValueError, IndexError):
+		        continue
+	else:
+	    bot.send_message(chat_id=user_id, text=f'В радиусе {dis} метров сохраненные места не найдены')
         update_state(user_id, START)
 
 
