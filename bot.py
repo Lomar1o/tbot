@@ -112,7 +112,7 @@ def callback_handler(callback_query):
             bot.send_message(chat_id=user_id, text=f'Название места: {name}')
         if geo:
             bot.send_location(user_id, geo.split()[0], geo.split()[1])
-    elif text == 'Отменить добавление' or text == 'Отменить поиск':
+    elif text == 'Отменить добавление':
         r.delete(create_key(user_id, 'name'))
         r.delete(create_key(user_id, 'img'))
         r.delete(create_key(user_id, 'geo'))
@@ -197,9 +197,9 @@ def handle_nearby_place(message):
                         bot.send_location(user_id, lat_to, lon_to)
                 except (ValueError, IndexError):
                     continue
-    else:
-        bot.send_message(chat_id=user_id, text=f'В радиусе {dis} метров сохраненные места не найдены')
-    update_state(user_id, START)
+        else:
+            bot.send_message(chat_id=user_id, text=f'В радиусе {r.get(key)} метров сохраненные места не найдены')
+        update_state(user_id, START)
 
 
 bot.polling()
