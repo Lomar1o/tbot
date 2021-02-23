@@ -165,8 +165,10 @@ def handle_reset(message):
 @bot.message_handler(commands=['nearby'])
 def handle_nearby(message):
     bot.send_message(chat_id=message.chat.id,
-                     text='Добавьте геолокацию, чтоб получить ближайшие добавленные места')
-    bot.send_message(chat_id=message.chat.id, text='Введите в каком радиусе искать места')
+                     text='Добавьте геолокацию, чтоб получить ближайшие добавленные места',
+                     reply_markup=keyboard_add('Отменить поиск'))
+    bot.send_message(chat_id=message.chat.id, text='Введите в каком радиусе искать места',
+    		     reply_markup=keyboard_add('Отменить поиск'))
     update_state(message.chat.id, NEARBY)
 
 
