@@ -112,7 +112,7 @@ def callback_handler(callback_query):
             bot.send_message(chat_id=user_id, text=f'Название места: {name}')
         if geo:
             bot.send_location(user_id, geo.split()[0], geo.split()[1])
-    elif text == 'Отменить добавление':
+    elif text == 'Отменить добавление' or text == 'Отменить поиск':
         r.delete(create_key(user_id, 'name'))
         r.delete(create_key(user_id, 'img'))
         r.delete(create_key(user_id, 'geo'))
