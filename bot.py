@@ -141,13 +141,17 @@ def handle_list(message):
             pass
 
 
-@bot.message_handler(func=lambda x: True, commands=['start'])
+@bot.message_handler(func=lambda x: True, commands=['help'])
 def handle_information(message):
     bot.send_message(chat_id=message.chat.id, text='Введите команду /add для добавления локации')
     bot.send_message(chat_id=message.chat.id,
                      text='Введите команду /list для просмотра 10 последних локаций')
     bot.send_message(chat_id=message.chat.id,
+                     text='Введите команду /nearby для просмотра ближайших добавленных мест в заданном радиусе')
+    bot.send_message(chat_id=message.chat.id,
                      text='Введите команду /reset для удаления всех локаций')
+    bot.send_message(chat_id=message.chat.id,
+                     text='Введите команду /help для вызова подсказок по командам')
 
 
 @bot.message_handler(commands=['reset'])
