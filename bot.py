@@ -5,7 +5,7 @@ import os
 
 
 bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
-r = redis.from_url(os.environ.get("REDIS_URL"))
+r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 START, ADD, NEARBY = map(str, range(3))
 
 
