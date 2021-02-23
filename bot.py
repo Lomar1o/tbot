@@ -49,7 +49,8 @@ def distance(lat_from, lon_from, lat_to, lon_to):
                      commands=['add'])
 def handle_massage(message):
     bot.send_message(chat_id=message.chat.id,
-                     text='Вы можете добавить фото, геолокацию и название места')
+                     text='Вы можете добавить фото, геолокацию и название места',
+                     reply_markup=keyboard_add('Отменить добавление'))
     update_state(message.chat.id, ADD)
 
 
