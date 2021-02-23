@@ -117,6 +117,7 @@ def callback_handler(callback_query):
         r.delete(create_key(user_id, 'name'))
         r.delete(create_key(user_id, 'img'))
         r.delete(create_key(user_id, 'geo'))
+        bot.send_message(chat_id=user_id, text='Добавление места отменено')
         update_state(user_id, START)
 
 
