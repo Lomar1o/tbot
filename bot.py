@@ -1,11 +1,11 @@
-from collections import defaultdict
 from math import radians, cos, sin, asin, sqrt
 import telebot
 import redis
+import os
 
 
 bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
-r = redis.StrictRedis(decode_responses=True)
+r = redis.from_url(os.environ.get("REDIS_URL"))
 START, ADD, NEARBY = map(str, range(3))
 STATUS = defaultdict(lambda: START)
 
