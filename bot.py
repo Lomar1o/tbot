@@ -113,6 +113,9 @@ def callback_handler(callback_query):
         r.delete(create_key(user_id, 'geo'))
         bot.send_message(chat_id=user_id, text='Добавление места отменено')
         update_state(user_id, START)
+    elif text == 'Отменить поиск':
+        update_state(user_id, START)
+        bot.send_message(chat_id=user_id, text='Поиск ближайших мест отменен')
 
 
 @bot.message_handler(func=lambda message: get_status(message.chat.id) == START,
