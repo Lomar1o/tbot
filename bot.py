@@ -3,7 +3,9 @@ import telebot
 import redis
 import os
 
-bot = telebot.TeleBot('1312721883:AAE_gCmhvN6uLroiRZWMIsF7R12fzK-ZIZ4')
+
+TOKEN = os.environ["TOKEN"]
+bot = telebot.TeleBot(TOKEN)
 r = redis.from_url(os.environ.get("REDIS_URL"), decode_responses=True)
 START, ADD, NEARBY = map(str, range(3))
 
@@ -19,7 +21,6 @@ def update_state(user_id, state):
 
 def get_status(user_id):
     key = create_key(user_id, 'state')
-    print(r.get(key))
     return r.get(key) or START
 
 
@@ -134,7 +135,6 @@ def handle_list(message):
         elif name and not img:
             bot.send_message(chat_id=user_id, text=f'Название места: {name}')
         try:
-            print(geo, name)
             bot.send_location(user_id, geo.split()[0], geo.split()[1])
         except IndexError:
             pass
